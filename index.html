@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>فاتورة الطلب - Kahkaya</title>
+<style>
+body {
+    font-family: Arial;
+    direction: rtl;
+    padding: 20px;
+    background: #fafafa;
+}
+h1 { text-align: center; margin-bottom: 15px; }
+table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+th, td { padding: 8px; border: 1px solid #ddd; text-align: center; }
+input[type=number] { width: 60px; }
+button {
+    padding: 10px 15px;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+button:hover { background: #218838; }
+</style>
+</head>
+
+<body>
+
+<h1>فاتورة الطلب</h1>
+
+<table>
+<tr>
+    <th>الصنف</th>
+    <th>السعر لكل كيلو / علبة</th>
+    <th>الكمية</th>
+</tr>
+
+<script>
+const menu = [
+    {name:"بسكويت زبدة فانيليا", price:210},
+    {name:"بسكويت زبدة شوكولاتة", price:210},
+    {name:"بسكويت زبدة نسكافية", price:210},
+    {name:"بسكويت قهوة", price:330},
+    {name:"بسكويت ميلكا", price:300},
+    {name:"بسكويت قرفة", price:250},
+    {name:"كحك سادة", price:220},
+    {name:"كحك عجوة", price:220},
+    {name:"كحك ملبن", price:220},
+    {name:"كحك عين جمل", price:260},
+    {name:"غريبة بالسمن البلدي", price:450},
+    {name:"قراقيش سادة", price:200},
+    {name:"قراقيش عجوة", price:200},
+    {name:"بيتي فور فانيليا", price:270},
+    {name:"بيتي فور شوكولاتة", price:270},
+    {name:"تارت", price:300},
+    {name:"سابلية", price:300},
+    {name:"سابلية بونبون", price:350},
+    {name:"جوزيه", price:350},
+    {name:"بيمبو", price:300},
+    {name:"شوكولاتة روشية", price:400},
+    {name:"شوكولاتة رفايللو", price:400},
+    {name:"كوكيز فانيليا", price:250},
+    {name:"كوكيز شوكولاتة", price:250},
+    {name:"كوكيز حشوات", price:300},
+    {name:"دونات (علبة 10 قطع)", price:100},
+    {name:"نصف مشكل 1", price:120},
+    {name:"نصف مشكل 2", price:150},
+    {name:"نصف مشكل 3", price:185},
+    {name:"نصف مشكل 4", price:145}
+];
+
+menu.forEach((item, i) => {
+    document.write(`<tr>
+        <td>${item.name}</td>
+        <td>${item.price} ج</td>
+        <td><input type="number" id="qty${i}" min="0" step="0.25" value="0"></td>
+    </tr>`);
+});
+</script>
+</table>
+
+<button onclick="calcBill()">احسب الفاتورة</button>
+
+<div id="bill" style="margin-top:20px"></div>
+
+<script>
+function calcBill() {
+    let total = 0;
+    let output = "<h2>الفاتورة</h2><table><tr><th>الصنف</th><th>الكمية</th><th>السعر</th></tr>";
+    menu.forEach((item, i) => {
+        let q = Number(document.getElementById("qty"+i).value);
+        if (q > 0) {
+            let lineTotal = q * item.price;
+            total += lineTotal;
+            output += `<tr>
+                <td>${item.name}</td>
+                <td>${q}</td>
+                <td>${lineTotal.toFixed(2)} ج</td>
+            </tr>`;
+        }
+    });
+    output += "</table>";
+    output += `<h3>الإجمالي: ${total.toFixed(2)} ج</h3>`;
+    document.getElementById("bill").innerHTML = output;
+}
+</script>
+
+</body>
+</html>
